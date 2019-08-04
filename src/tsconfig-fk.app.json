@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/fk-app",
+    "baseUrl": "./",
+    "module": "es2015",
+    "types": []
+  },
+  "include": [
+    "./",
+    "../node_modules/angular2-logger/app/core/"
+  ],
+  "exclude": [
+    "app",
+    "fk-app/test.ts",
+    "**/*.spec.ts"
+  ]
+}

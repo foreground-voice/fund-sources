@@ -1,0 +1,40 @@
+.search-table-tabs .ui-tabmenu {
+  display: inline-block;
+  padding: 0px;
+  width: 100%;
+
+  .ui-tabmenu-nav {
+    padding: 0px;
+
+    & > li {
+      &, &:hover {
+        padding: 10px 20px;
+        margin: 0px 5px;
+        cursor: pointer;
+        border-color: transparent !important;
+        background: transparent !important;
+      }
+
+      & > a, & > a span {
+        padding: 0px;
+        text-decoration: underline;
+        color: #0075c5;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      &.ui-state-active {
+        background: #e6f3fa url("../../assets/images/tabbg.png") repeat-x top left !important;
+        border: 1px solid #b4c5d0 !important;
+        border-bottom: none 0px !important;
+        color: #000;
+
+        & > a, & > a span {
+          text-decoration: none;
+          text-shadow: 0 1px 1px #CCCCCC;
+          color: #000;
+        }
+      }
+    }
+  }
+}

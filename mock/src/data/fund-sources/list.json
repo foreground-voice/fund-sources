@@ -1,0 +1,116 @@
+{
+  "id": 901,
+  "agreementDate": "2018-02-06T23:00:00+0300",
+  "agreementNumber": "ado-16022018-01",
+  "bgRegistryNumber": null,
+  "createDate": "2018-02-16T14:38:36+0300",
+  "dateBeginExecution": "2018-02-13T23:00:00+0300",
+  "dateDocumentConfirmation": "2018-02-13T23:00:00+0300",
+  "dateEndExecution": "2018-02-21T23:00:00+0300",
+  "dateResult": "2018-02-06T23:00:00+0300",
+  "descMdfConditions": null,
+  "eAuctionSubjectId": 8412103,
+  "eAuctionSubjectName": "Выполнение работ и (или) оказание услуг по капитальному ремонту общего имущества многоквартирных домов, являющихся объектами культурного наследия, выявленными объектами культурного наследия",
+  "editionNumber": 1,
+  "electronicAuctionNumber": null,
+  "ensureType": null,
+  "isElectronicAuction": false,
+  "isEnsureFilled": false,
+  "isMultiPhase": false,
+  "isPlanPayment": true,
+  "modificationGround": null,
+  "nameDocumentConfirmation": "3333",
+  "numberDocumentConfirmation": "3333",
+  "price": 333333333,
+  "publishDate": null,
+  "reestrNumberDoc": null,
+  "requestPublishDate": null,
+  "status": "F",
+  "sumInRoubles": null,
+  "termExecution": 8,
+  "versionNumber": 0,
+  "agreementId": 881,
+  "agreementsCustomerId": 1041,
+  "agreementsInfoId": null,
+  "printFormId": 743,
+  "parentId": null,
+  "agreement": {
+    "id": 881,
+    "createDate": "2018-02-16T14:39:44+0300",
+    "organizationId": 1620618,
+    "reestrNumber": null,
+    "stage": "PR"
+  },
+  "agreementsFundsSources": [
+    {
+      "id": 921,
+      "name": "333333",
+      "typeId": 2,
+      "typeName": "Бюджет муниципального образования"
+    },
+    {
+      "id": 87,
+      "name": "4444",
+      "typeId": 1,
+      "typeName": "Средства собственников помещений в многоквартирных домах"
+    },
+    {
+      "id": 56,
+      "name": "99999",
+      "typeId": 3,
+      "typeName": "Аллигархические оффшоры"
+    }
+  ],
+  "agreementsPhases": [
+    {
+      "id": 921,
+      "dateBegin": "2018-02-13T23:00:00+0300",
+      "dateEnd": "2020-02-21T23:00:00+0300",
+      "guid": "3A1DF1FCFF254952BB13E0FC9FD8D7F4",
+      "agreementsPaymentsTerms": []
+    },
+    {
+      "id": 902,
+      "dateBegin": "2018-02-14T22:00:00+0300",
+      "dateEnd": "2021-07-30T22:00:00+0300",
+      "guid": "740604FBF7D541CE97C65CECEE1C486B",
+      "agreementsPaymentsTerms": [
+        {
+          "id": 956,
+          "sumRub": 0,
+          "year": 2018,
+          "agreementsFundsSource": {
+            "id": 921,
+            "name": "333333",
+            "typeId": 2,
+            "typeName": "Бюджет муниципального образования"
+          }
+        },
+        {
+          "id": 968,
+          "sumRub": 66000,
+          "year": 2019,
+          "agreementsFundsSource": {
+            "id": 87,
+            "name": "4444",
+            "typeId": 1,
+            "typeName": "Средства собственников помещений в многоквартирных домах"
+          }
+        },
+        {
+          "id": 947,
+          "sumRub": 700,
+          "year": 2020,
+          "agreementsFundsSource": {
+            "id": 56,
+            "name": "99999",
+            "typeId": 3,
+            "typeName": "Аллигархические оффшоры"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+

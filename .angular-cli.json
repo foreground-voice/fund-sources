@@ -1,0 +1,62 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "overhaul-agreement-front"
+  },
+  "apps": [
+    {
+      "name": "app",
+      "prefix": "app",
+      "root": "src",
+      "outDir": "dist/app",
+      "assets": [
+        "assets"
+      ],
+      "index": "app/index.html",
+      "main": "app/main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "app/test.ts",
+      "tsconfig": "tsconfig-app.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "styles": [
+        "assets/styles.scss"
+      ],
+      "scripts": [],
+      "environmentSource": "app/environments/environment.ts",
+      "environments": {
+        "dev": "app/environments/environment.ts",
+        "prod": "app/environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss",
+    "component": {
+     "viewEncapsulation": "None"
+    }
+  }
+}

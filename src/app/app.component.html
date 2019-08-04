@@ -1,0 +1,13 @@
+<router-outlet></router-outlet>
+
+<p-confirmDialog header="Подтверждение"
+                 acceptLabel="Да"
+                 rejectLabel="Нет"
+                 icon="fa fa-question-circle"
+                 width="425">
+</p-confirmDialog>
+
+<app-growl></app-growl>
+<app-spinner *ngIf="isLoading"></app-spinner>
+<app-screen-veil *ngIf="isDisconnected"
+                 [message]="'Нет связи с сервером, попробуйте <a href=\'#\'>перезагрузить</a> страницу, когда она появится'"></app-screen-veil>

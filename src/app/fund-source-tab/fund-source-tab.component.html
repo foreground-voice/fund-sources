@@ -1,0 +1,117 @@
+<div class="mainBox">
+
+  <p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
+
+
+  <form *ngIf="fundsSource" #myForm="ngForm" novalidate>
+    <!--form: {{myForm.constructor}} <br>-->
+    <label id="tmp" style="display: none">
+    valid: {{myForm.valid}} <br>
+    value: <pre>{{JSON.stringify(myForm.value, null, '\r')}}</pre><br>
+    </label>
+    <div class="ui-g-12 ui-g-nopad formFieldBox">
+      <h2>График платежей</h2>
+
+      <div class="ui-g-12">
+        <label>
+          <input type="checkbox" [(ngModel)]="fundsSource.isPlanPayment" [ngModelOptions]="{standalone: true}">
+          Указать график платежей в разбивке по этапам договора и источникам финансирования
+        </label>
+      </div>
+
+      <div class="ui-g-12" *ngIf="fundsSource.isPlanPayment">
+        <label>Цена договора {{fundsSource.price | number:LocaleNumber.MONEY_FORMAT:'ru'}} в российских рублях,
+          из них не введено в разбивке по годам <span class="red">{{fundsSource.price - calcFullSum() | number:LocaleNumber.MONEY_FORMAT:'ru'}}</span></label>
+
+        <div class="ui-g-12 editable-card" *ngFor="let phase of fundsSource.agreementsPhases;" style="margin-top: 20px;">
+          <div class="ui-g-12" style="padding-bottom: 10px;">
+            <b style="margin: 6px; display: inline-block;">Этап: {{phase.fullName}}</b>
+            <!-- table header -->
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-4">
+                Наименование источника финансирования
+              </div>
+              <div class="ui-g-6 ui-g-nopad scrollable-x-managed">
+                <div class="ui-g-2" *ngFor="let year of phase.paymentTermColumnsKeys">
+                  <label>Сумма договора на <sup>*</sup></label>
+                  <p-dropdown [style]="{width: '100%', 'min-width': '100px'}"
+                              [options]="allowedYears(phase, year)"
+                              [ngModel]="year"
+                              (ngModelChange)="onYearChange(phase, $event, phase.paymentTermColumns.get(year))"
+                              [ngModelOptions]="{standalone: true}"
+                              appendTo="body">
+                  </p-dropdown>
+                  <br>
+                  <a *ngIf="phase.paymentTermColumnsKeys.length>1" (click)="onTermRemoveClick(phase, year)" style="float: right; padding: 0px; margin-top: 8px; text-align: right; border-bottom: 1px dashed; text-decoration: none; cursor: pointer;">
+                    Удалить период
+                  </a>
+                </div>
+              </div>
+              <div class="ui-g-2">
+                <br>
+                <button [disabled]="!allowedYears(phase).length"
+                        pButton type="button" icon="fa-plus" style="float: right; padding: 0px; width: 140px;" iconPos="left" label="Добавить период" (click)="onTermAddClick(phase)"></button>
+              </div>
+            </div>
+            <!-- table body -->
+            <div class="ui-g-12 ui-g-nopad" style="border-top: 1px solid #dedede;"
+                 *ngFor="let row of phase.paymentTermRowsEntries; trackBy: trackFsFn">
+              <div class="ui-g-4">
+                <p-dropdown [style]="{width: '100%'}"
+                            [options]="allowedAgreementsFundsSources(phase, row.fs)"
+                            [ngModel]="row.fs"
+                            (ngModelChange)="onFundSourceChange(phase, $event, row.terms)"
+                            [ngModelOptions]="{standalone: true}">
+                </p-dropdown>
+              </div>
+              <div class="ui-g-6 ui-g-nopad scrollable-x-managed">
+                <div class="ui-g-2" *ngFor="let year of phase.paymentTermColumnsKeys; trackBy: trackYearFn; index as idx;">
+                  <app-number-input [name]="'phoneNumber-' + phase.id + '-' + row.fs.id + '-'+ year"
+                                    class="matrix-number-input"
+                                    [ngModel]="phase.getPaymentTermBy(row.fs, year)?.sumRub"
+                                    (ngModelChange)="phase.setPaymentTermBy(row.fs, year, $event)"></app-number-input>
+                </div>
+              </div>
+              <div class="ui-g-2">
+                <button *ngIf="phase.paymentTermRowsEntries.length>1" pButton type="button" icon="fa-remove" style="float: right; padding: 0px;" iconPos="left" label="Удалить источник" (click)="onFundSourceRemoveClick(phase, row.fs)"></button>
+              </div>
+            </div>
+            <!-- table footer -->
+            <div class="ui-g-12 ui-g-nopad" style="border-top: 1px solid #dedede; line-height: 25px;">
+              <div class="ui-g-4" style="text-align: right;">
+                <button [disabled]="!allowedAgreementsFundsSources(phase).length"
+                        pButton type="button" icon="fa-plus" style="float: left; padding: 0px;" iconPos="left" label="Добавить источник" (click)="onFundSourceAddClick(phase)"></button>
+                Итого:
+              </div>
+              <div class="ui-g-6 ui-g-nopad scrollable-x-managed">
+                <div class="ui-g-2" *ngFor="let year of phase.paymentTermColumnsKeys">
+                  {{calcPhaseSum(phase, year) | number:LocaleNumber.MONEY_FORMAT:'ru'}}
+                </div>
+              </div>
+              <div class="ui-g-2" style="text-align: right">
+                в российских рублях
+              </div>
+            </div>
+            <!-- table scrollbar -->
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-4"></div>
+              <div class="ui-g-6 ui-g-nopad scrollable-x">
+                <div class="ui-g-2" *ngFor="let year of phase.paymentTermColumnsKeys">
+                </div>
+              </div>
+              <div class="ui-g-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <br>
+    </div>
+    <div class="ui-g-12 noticeBtnBlock">
+      <span class="btn blueBtn">
+        <input type="button" value="Готово" (click)="save()">
+      </span>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,25 @@
+app-fund-source-tab {
+  .scrollable-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: inline-flex;
+    &>* {
+      min-width: 130px;
+    }
+  }
+  .scrollable-x-managed {
+    overflow: hidden;
+    display: inline-flex;
+    &>* {
+      min-width: 130px;
+    }
+  }
+  .matrix-number-input {
+    input {
+      width: 100%;
+    }
+    label.error {
+      display: none !important;
+    }
+  }
+}

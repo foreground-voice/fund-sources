@@ -1,0 +1,6 @@
+export enum ErrorType {
+  BLOCKER = 'BLOCKER',
+  PUBLICATION_BLOCKER = 'PUBLICATION_BLOCKER',
+  WARNING = 'WARNING',
+  INFO = 'INFO'
+}

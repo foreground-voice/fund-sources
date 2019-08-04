@@ -1,0 +1,12 @@
+<p-calendar
+  [yearNavigator]="true"
+  [yearRange]="'2000:2030'"
+  [monthNavigator]="true"
+  placeholder="С" [(ngModel)]="_beginDate" [locale]="LocaleDateTime.ru" [showIcon]="true" [dateFormat]="LocaleDateTime.PRIMENG_DATE_FORMAT" (onSelect)="onChange($event)"></p-calendar>
+<strong>&nbsp;—&nbsp;</strong>
+<p-calendar
+  [yearNavigator]="true"
+  [yearRange]="'2000:2030'"
+  [monthNavigator]="true"
+  placeholder="По" [(ngModel)]="_endDate" [locale]="LocaleDateTime.ru" [showIcon]="true" [dateFormat]="LocaleDateTime.PRIMENG_DATE_FORMAT" (onSelect)="onChange($event)"></p-calendar>
+<label class="error" style="display: inline;">{{errorMessage}}</label>

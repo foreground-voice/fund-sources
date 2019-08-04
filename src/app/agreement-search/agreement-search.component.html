@@ -1,0 +1,221 @@
+<div class="mainBox">
+  <h1>Реестр договоров</h1>
+  <form class="mainFormForPage" name="searchForm">
+
+    <div class="addLine">
+      <p>Параметры поиска</p>
+      <div class="clear"></div>
+    </div>
+
+    <div class="searchSettings">
+      <div class="searchSettingsWrapper" style="display: block;">
+        <table class="" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr>
+              <td class="firstTd">
+                <table class="" cellspacing="0" cellpadding="0">
+                  <tbody>
+                    <tr>
+                      <td class="labelTd">
+                        Номер реестровой записи
+                      </td>
+                      <td class="formElement">
+                          <input type="text" pInputText
+                            class="fit-width"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="agreementSearchCriteria.reestrNumber"
+                            placeholder="Введите номер или часть номера реестровой записи"/>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Номер договора
+                      </td>
+                      <td class="formElement">
+                        <input type="text" pInputText
+                            class="fit-width"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="agreementSearchCriteria.agreementNumber"
+                            placeholder="Введите номер или часть номера договора"/>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Предмет электронного аукциона
+                      </td>
+                      <td class="formElement">
+                        <app-multiselect-list
+                          #eAuctionSubjects
+                          [items]="agreementSearchCriteriaDics.eAuctionSubjects"
+                          (selectedItems)="eAuctionSubjectsChanged($event)"
+                          [placeholder]="'Выберите одно или несколько значений'">
+                        </app-multiselect-list>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Вид работ (услуг)
+                      </td>
+                      <td class="formElement">
+                        <app-multiselect-list
+                          [items]="agreementSearchCriteriaDics.agreementWorkTypes"
+                          (selectedItems)="agreementSearchCriteria.agreementWorkTypes = $event"
+                          [placeholder]="'Выберите одно или несколько значений'">
+                        </app-multiselect-list>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Источник финансирования
+                      </td>
+                      <td class="formElement">
+                        <app-multiselect-list
+                          [items]="agreementSearchCriteriaDics.agreementsFundsSourceTypes"
+                          (selectedItems)="agreementSearchCriteria.agreementsFundsSourceTypes = $event"
+                          [placeholder]="'Выберите одно или несколько значений'">
+                        </app-multiselect-list>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Дата заключения договора
+                      </td>
+                      <td>
+                        <app-date-range-input
+                          [(beginDate)]="agreementSearchCriteria.agreementDateFrom"
+                          [(endDate)]="agreementSearchCriteria.agreementDateTo"></app-date-range-input>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Цена договора
+                      </td>
+                      <td class="formElement">
+                        <app-number-range-input
+                          [(minNumber)]="agreementSearchCriteria.priceFrom"
+                          [(maxNumber)]="agreementSearchCriteria.priceTo"></app-number-range-input>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="labelTd">
+                        Этап
+                      </td>
+                      <td class="formElement">
+                        <app-multiselect-list
+                          [(items)]="agreementSearchCriteria.stagesCollection"
+                          [placeholder]="'Выберите одно или несколько значений'">
+                        </app-multiselect-list>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="extentedBtn">
+          <span class="btn">
+            <input value="Найти" type="submit" (click)="search()">
+          </span>
+          <span class="btn resetBtn">
+            <input value="Сбросить фильтр" (click)="clearFilter()" type="reset">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <p-tabMenu [model]="tabMenuItems" [activeItem]="tabMenuSelectedItem" class="search-table-tabs"></p-tabMenu>
+
+    <p-dataTable [rows]="15" [paginator]="true" [value]="agreementsRegRecords" dataKey="agreementInfoId"
+                 (onSort)="changeSort($event)" rowHover="true"
+                 [emptyMessage]="'Записи не найдены'">
+      <p-column field="agreementInfoId" [style]="{width: '50px'}">
+        <ng-template pTemplate="header">
+          <img src="assets/images/info_pic.png"
+               title="Отметка «Новое» – сведения сформированы за сегодняшний день">
+        </ng-template>
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span style="text-align: center; width: 100%; display: block; color: green;">
+            <ng-container *ngIf="isToday(entity.agreementDate)">
+              <span title="Сведения сформированы за сегодняшний день">Новое</span>
+            </ng-container>
+            <ng-container *ngIf="entity.status == Status.NOT_PASSED.alias; else defaultStatusIcon">
+              <img src="assets/images/warning_.png" title="Протокол несоответствий">
+            </ng-container>
+            <ng-template #defaultStatusIcon>
+              <img *ngIf="entity.hasPublishedDocsBeforeLastWeek" src="assets/images/i_checkOk.png" title="Уведомления о включении / обновлении информации в реестре договоров">
+            </ng-template>
+          </span>
+        </ng-template>
+      </p-column>
+      <p-column header="{{currentStage != Stage.PREPARE_INFORMATION ? 'Номер реестровой записи' : ''}}" [style]="{width: currentStage != Stage.PREPARE_INFORMATION ? '190px' : '50px'}">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <div class="middle-align-container">
+            <ng-container *ngIf="currentStage != Stage.PREPARE_INFORMATION">
+              <ng-container *ngIf="entity.reestrNumber; else undefinedReesrNumber">
+                <span>{{entity.reestrNumber}}</span>
+              </ng-container>
+              <ng-template #undefinedReesrNumber>
+                <span>Не задан</span>
+              </ng-template>
+            </ng-container>
+            <div style="width: 22px; height: 22px; float: right;">
+              <ng-container *ngIf="!tableCtxMenu.visible || selectedRegRecord != entity; else collapseUp">
+                <img src="assets/images/collapse-down.png" (click)="onTableCtxMenu(entity, $event)">
+              </ng-container>
+              <ng-template #collapseUp>
+                <img src="assets/images/collapse-up.png" (click)="onTableCtxMenu(entity, $event);">
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column header="№ договора, источник финансирования">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span>{{entity.agreementNumber ? entity.agreementNumber : 'Не задан'}}<br>{{joinToString(entity.agreementsFundsSources)}}</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Дата заключения договора" [style]="{width: '100px'}">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span>{{entity.agreementDate | date:LocaleDateTime.DATE_FORMAT}}</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Дата окончания срока исполнения договора" [style]="{width: '100px'}">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span>{{entity.dateEndExecution | date:LocaleDateTime.DATE_FORMAT}}</span>
+        </ng-template>
+      </p-column>
+      <p-column header="Реквизиты закупки">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span style="text-align: left; float: left;">
+            Электронный аукцион No {{entity.electronicAuctionNumber}}<br>
+            Предмет электронного аукциона:<br>
+            {{entity.eAuctionSubjectName}}
+          </span>
+        </ng-template>
+      </p-column>
+      <p-column header="Сумма (в рублях)" [style]="{width: '80px'}">
+        <ng-template let-col let-entity="rowData" pTemplate="body">
+          <span>{{entity.price | number:LocaleNumber.MONEY_FORMAT:'ru'}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="statusName" header="Статус информации" [style]="{width: '100px'}" *ngIf="currentStage == Stage.PREPARE_INFORMATION || currentStage == null">
+      </p-column>
+      <p-column field="stageName" header="Этап" [style]="{width: '100px'}" *ngIf="currentStage == null">
+      </p-column>
+    </p-dataTable>
+
+    <p-contextMenu #tableCtxMenu [model]="tableCtxMenuItems" appendTo="body"></p-contextMenu>
+
+  </form>
+</div>
+
+

@@ -1,0 +1,26 @@
+<div class="collapsed" (click)="onInputClick($event)">
+  <span class="msExpandButton" [ngClass]="{'active': expanded}"></span>
+  <span class="" *ngIf="_selectedItems.length; else placeholderSpan">
+    {{joinSelected()}}
+  </span>
+  <ng-template #placeholderSpan>
+    <span class="msPlaceholder">
+      {{placeholder}}
+    </span>
+  </ng-template>
+</div>
+<div class="selectChose" *ngIf="expanded">
+  <div class="expanded">
+    <ul class="feasibilityToRemove">
+      <li *ngFor="let item of _items;">
+        <label>
+          <input type="checkbox" [(ngModel)]="item.checked"/>
+          {{item.label}}
+        </label>
+      </li>
+    </ul>
+  </div>
+  <p class="msButtonIn">
+    <span class="btnBtn" (click)="onInputClick($event)">Выбрать</span>
+  </p>
+</div>

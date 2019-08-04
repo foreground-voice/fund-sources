@@ -1,0 +1,9 @@
+<input pInputText
+       type="text"
+       [ngModel]="numberValue"
+       (ngModelChange)="onChange($event)"
+       (blur)="_onTouched($event)"
+       [maxlength]="maxlength"
+       [disabled]="disabled"
+       [class.error]="!isValid()"/>
+<label class="error" style="display: inline;">{{errorMessage}}</label>

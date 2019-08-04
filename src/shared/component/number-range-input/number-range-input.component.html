@@ -1,0 +1,4 @@
+<input [ngModelOptions]="{standalone: true}" type="text" pInputText placeholder="Минимальное значение" [ngClass]="{'error': minInput.errorMessage}" [(ngModel)]="minInput.value" (change)="onChange($event)"/>
+<strong>&nbsp;—&nbsp;</strong>
+<input [ngModelOptions]="{standalone: true}" type="text" pInputText placeholder="Максимальное значение" [ngClass]="{'error': maxInput.errorMessage}" [(ngModel)]="maxInput.value" (change)="onChange($event)"/>
+<label class="error" style="display: inline;">{{getErrorMessage()}}</label>
